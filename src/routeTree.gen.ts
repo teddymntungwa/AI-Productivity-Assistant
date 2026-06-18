@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ToolsTasksRouteImport } from './routes/tools/tasks'
+import { Route as ToolsResearchRouteImport } from './routes/tools/research'
+import { Route as ToolsMeetingRouteImport } from './routes/tools/meeting'
+import { Route as ToolsEmailRouteImport } from './routes/tools/email'
+import { Route as ToolsChatRouteImport } from './routes/tools/chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsTasksRoute = ToolsTasksRouteImport.update({
+  id: '/tools/tasks',
+  path: '/tools/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsResearchRoute = ToolsResearchRouteImport.update({
+  id: '/tools/research',
+  path: '/tools/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsMeetingRoute = ToolsMeetingRouteImport.update({
+  id: '/tools/meeting',
+  path: '/tools/meeting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsEmailRoute = ToolsEmailRouteImport.update({
+  id: '/tools/email',
+  path: '/tools/email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsChatRoute = ToolsChatRouteImport.update({
+  id: '/tools/chat',
+  path: '/tools/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/tools/chat': typeof ToolsChatRoute
+  '/tools/email': typeof ToolsEmailRoute
+  '/tools/meeting': typeof ToolsMeetingRoute
+  '/tools/research': typeof ToolsResearchRoute
+  '/tools/tasks': typeof ToolsTasksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/tools/chat': typeof ToolsChatRoute
+  '/tools/email': typeof ToolsEmailRoute
+  '/tools/meeting': typeof ToolsMeetingRoute
+  '/tools/research': typeof ToolsResearchRoute
+  '/tools/tasks': typeof ToolsTasksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/tools/chat': typeof ToolsChatRoute
+  '/tools/email': typeof ToolsEmailRoute
+  '/tools/meeting': typeof ToolsMeetingRoute
+  '/tools/research': typeof ToolsResearchRoute
+  '/tools/tasks': typeof ToolsTasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/tools/chat'
+    | '/tools/email'
+    | '/tools/meeting'
+    | '/tools/research'
+    | '/tools/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/tools/chat'
+    | '/tools/email'
+    | '/tools/meeting'
+    | '/tools/research'
+    | '/tools/tasks'
+  id:
+    | '__root__'
+    | '/'
+    | '/tools/chat'
+    | '/tools/email'
+    | '/tools/meeting'
+    | '/tools/research'
+    | '/tools/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ToolsChatRoute: typeof ToolsChatRoute
+  ToolsEmailRoute: typeof ToolsEmailRoute
+  ToolsMeetingRoute: typeof ToolsMeetingRoute
+  ToolsResearchRoute: typeof ToolsResearchRoute
+  ToolsTasksRoute: typeof ToolsTasksRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +117,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/tasks': {
+      id: '/tools/tasks'
+      path: '/tools/tasks'
+      fullPath: '/tools/tasks'
+      preLoaderRoute: typeof ToolsTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/research': {
+      id: '/tools/research'
+      path: '/tools/research'
+      fullPath: '/tools/research'
+      preLoaderRoute: typeof ToolsResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/meeting': {
+      id: '/tools/meeting'
+      path: '/tools/meeting'
+      fullPath: '/tools/meeting'
+      preLoaderRoute: typeof ToolsMeetingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/email': {
+      id: '/tools/email'
+      path: '/tools/email'
+      fullPath: '/tools/email'
+      preLoaderRoute: typeof ToolsEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/chat': {
+      id: '/tools/chat'
+      path: '/tools/chat'
+      fullPath: '/tools/chat'
+      preLoaderRoute: typeof ToolsChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ToolsChatRoute: ToolsChatRoute,
+  ToolsEmailRoute: ToolsEmailRoute,
+  ToolsMeetingRoute: ToolsMeetingRoute,
+  ToolsResearchRoute: ToolsResearchRoute,
+  ToolsTasksRoute: ToolsTasksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
